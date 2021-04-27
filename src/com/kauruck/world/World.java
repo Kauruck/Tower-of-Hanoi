@@ -1,14 +1,17 @@
 package com.kauruck.world;
 
 import com.kauruck.graphics.RenderThread;
+import com.kauruck.util.BasicQueue;
 
 import java.awt.*;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.PriorityQueue;
+import java.util.Queue;
 
 public class World {
 
-    private List<Layer> layers = new ArrayList<>();
+    Queue<Layer> layers = new BasicQueue<>();
 
     RenderThread parentRenderer;
 
@@ -25,5 +28,13 @@ public class World {
         g.drawString("FPS: " + parentRenderer.getFps(), 20, 20);
         //Render all the layers
         layers.forEach(current -> current.render(g));
+    }
+
+    public void push(Layer layer){
+        layers.add(layer);
+    }
+
+    public void pop(Layer layer){
+        layers.remove(layer);
     }
 }

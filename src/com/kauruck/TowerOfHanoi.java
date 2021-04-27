@@ -3,7 +3,12 @@ package com.kauruck;
 import com.kauruck.game.MainFrame;
 import com.kauruck.graphics.RenderThread;
 import com.kauruck.graphics.RenderThreadState;
+import com.kauruck.graphics.sprites.BaseSprite;
+import com.kauruck.util.BasicQueue;
+import com.kauruck.world.Layer;
 import com.kauruck.world.World;
+
+import java.util.Queue;
 
 public class TowerOfHanoi {
 
@@ -18,7 +23,23 @@ public class TowerOfHanoi {
     public static RenderThread mainRenderThread;
 
 
+    /**
+     * The Main world in which all the action happens
+     */
+    public static World mainWorld;
+
+    /**
+     * The Layer where all the action hppens
+     */
+    public static Layer mainLayer;
+
+
+    /**
+     * Main Function
+     * @param args Args form the command line
+     */
     public static void main(String[] args){
+
         //Create the main game window with 500x500 and the title Tower of Hanoi
         frame = new MainFrame(500, 500, "Tower of Hanoi");
         //Show the main frame
@@ -29,7 +50,18 @@ public class TowerOfHanoi {
         //Start the thread
         mainRenderThread.createAndRun();
 
-        mainRenderThread.setCurrentWorld(new World());
+        //Create the world
+        mainWorld = new World();
+
+        //Create main Layer
+        mainLayer = new Layer();
+        mainWorld.push(mainLayer);
+
+        //Add some tmp sprites
+        mainLayer.push(new BaseSprite());
+
+        //Show it in the main renderer
+        mainRenderThread.setCurrentWorld(mainWorld);
 
     }
 

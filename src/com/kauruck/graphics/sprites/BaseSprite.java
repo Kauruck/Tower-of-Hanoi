@@ -11,6 +11,8 @@ public class BaseSprite extends Sprite{
         float g = (float) Math.random();
         float b = (float) Math.random();
         renderColor = new Color(r,g,b);
+        this.x = 50;
+        this.y = 50;
     }
 
     @Override
