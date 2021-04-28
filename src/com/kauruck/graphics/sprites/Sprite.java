@@ -4,8 +4,8 @@ import java.awt.*;
 
 public abstract class Sprite {
 
-    protected int x;
-    protected int y;
+    private int x;
+    private int y;
 
     public void setX(int x) {
         this.x = x;

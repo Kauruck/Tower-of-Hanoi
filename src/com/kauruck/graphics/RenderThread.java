@@ -1,12 +1,11 @@
 package com.kauruck.graphics;
 
-import com.kauruck.exceptions.SingletonExitsException;
 import com.kauruck.ui.RenderTargetPanel;
+import com.kauruck.util.ThreadState;
 import com.kauruck.world.World;
 
 import java.awt.*;
 import java.awt.image.VolatileImage;
-import java.util.concurrent.TimeUnit;
 
 public class RenderThread implements Runnable{
 
@@ -14,7 +13,7 @@ public class RenderThread implements Runnable{
     private final RenderTargetPanel renderTargetPanel;
 
     //The state of the thread
-    private RenderThreadState renderThreadState = RenderThreadState.Stopped;
+    private ThreadState threadState = ThreadState.Stopped;
 
     //Her comes the stuff for the fps
     float fps;
@@ -48,22 +47,22 @@ public class RenderThread implements Runnable{
      * This does not immediately stop the thread.
      */
     public void stop(){
-        renderThreadState =  RenderThreadState.Stopping;
+        threadState =  ThreadState.Stopping;
     }
 
     /**
      * Weather the thread is running. This does not mean that all execution has stop. This could take some time more.
      * @return the state of running
      */
-    public RenderThreadState getState() {
-        return renderThreadState;
+    public ThreadState getState() {
+        return threadState;
     }
 
     /**
      * Creates and starts a thread of this instance
      */
     public void createAndRun(){
-        if(renderThreadState != RenderThreadState.Stopped)
+        if(threadState != ThreadState.Stopped)
             return;
         currentThread = new Thread(this);
         currentThread.start();
@@ -125,7 +124,7 @@ public class RenderThread implements Runnable{
     public void run() {
 
         //We are staring
-        renderThreadState = RenderThreadState.Starting;
+        threadState = ThreadState.Starting;
         //Setup
         GraphicsEnvironment ge = GraphicsEnvironment.getLocalGraphicsEnvironment();
         gd =  ge.getDefaultScreenDevice();
@@ -133,10 +132,10 @@ public class RenderThread implements Runnable{
 
 
         //Setup done. We are running
-        renderThreadState = RenderThreadState.Running;
+        threadState = ThreadState.Running;
         //Renderloop
         long frameStartTime;
-        while (renderThreadState == RenderThreadState.Running) {
+        while (threadState == ThreadState.Running) {
             frameStartTime = System.nanoTime();
             //Rendering the current world
             if (currentWorld != null) {
@@ -188,11 +187,11 @@ public class RenderThread implements Runnable{
 
 
         //Stopping the thread
-        renderThreadState = RenderThreadState.Stopping;
+        threadState = ThreadState.Stopping;
         //Cleanup goes her
 
         //Thread has stop
-        renderThreadState = RenderThreadState.Stopped;
+        threadState = ThreadState.Stopped;
     }
 
 

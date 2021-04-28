@@ -4,6 +4,8 @@ import com.kauruck.TowerOfHanoi;
 import com.kauruck.ui.RenderTargetPanel;
 
 import javax.swing.*;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 

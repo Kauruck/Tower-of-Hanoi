@@ -4,6 +4,7 @@ import com.kauruck.graphics.sprites.Sprite;
 
 import java.awt.*;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 public class Layer {
@@ -20,5 +21,9 @@ public class Layer {
 
     public void render(Graphics2D g){
         toRender.forEach(current -> current.draw(g));
+    }
+
+    public Collection<Sprite> getSprites(){
+        return toRender;
     }
 }
