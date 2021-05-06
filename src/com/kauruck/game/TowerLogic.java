@@ -6,7 +6,7 @@ import com.kauruck.world.Layer;
 import java.awt.*;
 import java.util.Collection;
 
-public class TowelLogic {
+public class TowerLogic {
 
     public static Layer renderLayer;
 
@@ -18,14 +18,11 @@ public class TowelLogic {
         if(renderLayer == null)
             return;
 
-        int yOffset = 0;
         for(int i = 0; i < n; i++){
             int size = startSize - stepSize * i;
             PlateSprite current = new PlateSprite(size,i%2==0 ? A : B);
-            int y = tower.getY() - yOffset;
             renderLayer.push(current);
             tower.addPlate(current);
-            yOffset += (int)(size * PlateSprite.ASPECT_RATIO);
         }
     }
 
@@ -33,6 +30,14 @@ public class TowelLogic {
         int out = list.stream().mapToInt(current -> (int) (current.getSize() * PlateSprite.ASPECT_RATIO)).sum();
 
         return out;
+    }
+
+    public static boolean move(Tower a, Tower b){
+        if(b.addPlate(a.getFirst())){
+            a.removeFirst();
+            return true;
+        }
+        return false;
     }
 
 }

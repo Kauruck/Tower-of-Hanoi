@@ -1,8 +1,8 @@
 package com.kauruck;
 
 import com.kauruck.game.MainFrame;
-import com.kauruck.game.TowelLogic;
-import com.kauruck.game.sprites.PlateSprite;
+import com.kauruck.game.TowerLogic;
+import com.kauruck.game.sprites.SelectionSprite;
 import com.kauruck.graphics.RenderThread;
 import com.kauruck.update.UpdateThread;
 import com.kauruck.util.ThreadState;
@@ -30,14 +30,32 @@ public class TowerOfHanoi {
     public static World mainWorld;
 
     /**
-     * The Layer where all the action hppens
+     * The Layer where all the action happens
      */
     public static Layer mainLayer;
+
+    /**
+     * The layer for the cursor.
+     * This keeps it always on top
+     */
+    public static Layer cursorLayer;
 
     /**
      * The thread for updating the mainLayer
      */
     public static UpdateThread mainUpdateThread;
+
+
+    /**
+     * The cursor for the game
+     */
+    public static SelectionSprite cursor;
+
+
+    /**
+     * The selected tower
+     */
+    public static SelectionSprite selection;
 
 
     /**
@@ -59,21 +77,36 @@ public class TowerOfHanoi {
         //Create the world
         mainWorld = new World();
 
+        //Add cursorlayer first so that it is ontop
+        cursorLayer = new Layer();
+        mainWorld.push(cursorLayer);
+
         //Create main Layer
         mainLayer = new Layer();
         mainUpdateThread = new UpdateThread(mainLayer);
         mainWorld.push(mainLayer);
 
-        //Add some tmp sprites
-        //mainLayer.push(new PlateSprite(100, Color.GREEN));
+
         //Set the renderLayer for the towerLogic
-        TowelLogic.renderLayer = mainLayer;
-        TowelLogic.fill(TowelLogic.towerA,5, 100, 10, Color.RED, Color.GREEN);
-        TowelLogic.fill(TowelLogic.towerB, 1,100,10,Color.RED, Color.GREEN);
+        TowerLogic.renderLayer = mainLayer;
+        //Add some tmp sprites
+        TowerLogic.fill(TowerLogic.towerA,5, 100, 10, Color.RED, Color.GREEN);
+        TowerLogic.fill(TowerLogic.towerB, 1,100,10,Color.RED, Color.GREEN);
+
+        //Init cursor
+        cursor = new SelectionSprite(Color.YELLOW);
+        cursor.moveTo(TowerLogic.towerA);
+        mainLayer.push(cursor);
+
+        //Init selection
+        selection = new SelectionSprite(Color.RED);
+        cursorLayer.push(selection);
 
         //Show it in the main renderer
         mainRenderThread.setCurrentWorld(mainWorld);
         mainUpdateThread.createAndRun();
+
+
 
     }
 

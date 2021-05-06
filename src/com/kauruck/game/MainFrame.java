@@ -29,6 +29,27 @@ public class MainFrame extends JFrame {
                 TowerOfHanoi.stop();
             }
         });
+
+        this.addKeyListener(new KeyAdapter() {
+            @Override
+            public void keyPressed(KeyEvent e) {
+                switch (e.getKeyCode()) {
+                    case KeyEvent.VK_1 -> TowerOfHanoi.cursor.moveTo(TowerLogic.towerA);
+                    case KeyEvent.VK_2 -> TowerOfHanoi.cursor.moveTo(TowerLogic.towerB);
+                    case KeyEvent.VK_ENTER -> {
+                        if(TowerOfHanoi.selection.getTarget() == null)
+                            TowerOfHanoi.selection.moveTo(TowerOfHanoi.cursor.getTarget());
+                        else{
+                            if(TowerLogic.move(TowerOfHanoi.selection.getTarget(),TowerOfHanoi.cursor.getTarget())){
+                                TowerOfHanoi.selection.moveTo(null);
+                            }
+                        }
+                    }
+
+                    case KeyEvent.VK_ESCAPE -> TowerOfHanoi.selection.moveTo(null);
+                }
+            }
+        });
     }
 
 
