@@ -8,12 +8,25 @@ import java.util.stream.Stream;
 public class Tower {
 
     private final Stack<PlateSprite> plateSprites = new Stack<>();
+    private final String name;
     private int x = 100;
     private int y = 100;
 
     public Tower(int x, int y) {
         this.x = x;
         this.y = y;
+        name = "";
+    }
+
+    public Tower(int x, int y, String name) {
+        this.x = x;
+        this.y = y;
+        this.name = name;
+    }
+
+    @Override
+    public String toString() {
+        return name + ":" + plateSprites.size();
     }
 
     public boolean addPlate(PlateSprite plateSprite){
@@ -26,6 +39,10 @@ public class Tower {
         return false;
     }
 
+    public boolean isEmpty(){
+        return plateSprites.isEmpty();
+    }
+
     public boolean canAddPlateSprite(PlateSprite plateSprite){
         if(plateSprites.isEmpty())
             return true;
@@ -33,6 +50,8 @@ public class Tower {
     }
 
     public PlateSprite getFirst(){
+        if(plateSprites.isEmpty())
+            return null;
         return plateSprites.lastElement();
     }
 

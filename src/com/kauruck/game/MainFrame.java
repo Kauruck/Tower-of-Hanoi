@@ -47,6 +47,8 @@ public class MainFrame extends JFrame {
                     }
 
                     case KeyEvent.VK_ESCAPE -> TowerOfHanoi.selection.moveTo(null);
+
+                    case KeyEvent.VK_N -> Logic.solve();
                 }
             }
         });

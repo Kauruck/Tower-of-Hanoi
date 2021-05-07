@@ -1,5 +1,6 @@
 package com.kauruck;
 
+import com.kauruck.game.Logic;
 import com.kauruck.game.MainFrame;
 import com.kauruck.game.TowerLogic;
 import com.kauruck.game.sprites.SelectionSprite;
@@ -57,6 +58,11 @@ public class TowerOfHanoi {
      */
     public static SelectionSprite selection;
 
+    /**
+     * The number of plates to start with
+     */
+    public static final int START_PLATES = 10;
+
 
     /**
      * Main Function
@@ -90,8 +96,10 @@ public class TowerOfHanoi {
         //Set the renderLayer for the towerLogic
         TowerLogic.renderLayer = mainLayer;
         //Add some tmp sprites
-        TowerLogic.fill(TowerLogic.towerA,5, 100, 10, Color.RED, Color.GREEN);
-        TowerLogic.fill(TowerLogic.towerB, 1,100,10,Color.RED, Color.GREEN);
+        //TowerLogic.fill(TowerLogic.towerA,5, 100, 10, Color.RED, Color.GREEN);
+        //TowerLogic.fill(TowerLogic.towerB, 1,100,10,Color.RED, Color.GREEN);
+        //Init the towers
+        Logic.init();
 
         //Init cursor
         cursor = new SelectionSprite(Color.YELLOW);
@@ -101,6 +109,9 @@ public class TowerOfHanoi {
         //Init selection
         selection = new SelectionSprite(Color.RED);
         cursorLayer.push(selection);
+
+        //Added a logic holder to receive updates
+        mainLayer.push(new Logic());
 
         //Show it in the main renderer
         mainRenderThread.setCurrentWorld(mainWorld);

@@ -32,7 +32,7 @@ public class BasicQueue<E> implements Queue<E> {
 
     @Override
     public boolean isEmpty() {
-        return head == null && tail == null;
+        return head == null;
     }
 
     @Override
@@ -212,6 +212,10 @@ public class BasicQueue<E> implements Queue<E> {
         if(head == null)
             throw new NoSuchElementException("There is no head, so you cant get it");
         Node<E> out = head;
+        if(head.getPost() == null){
+            head = null;
+            return out.getContent();
+        }
         head.getPost().setPre(null);
         head = head.getPost();
         return out.getContent();
